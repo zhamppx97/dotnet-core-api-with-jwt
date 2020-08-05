@@ -1,19 +1,14 @@
-using System.IdentityModel.Tokens.Jwt;
+using dotnet_core_api_with_jwt.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 
 namespace dotnet_core_api_with_jwt
 {
@@ -67,7 +62,10 @@ namespace dotnet_core_api_with_jwt
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            // API Request/Response handling
+            app.UseMiddleware<ApiLogHandling>();
+            // Exception error handling
+            app.UseMiddleware<ExceptionHandling>();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
